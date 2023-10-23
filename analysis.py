@@ -15,8 +15,9 @@ con.execute('''CREATE TABLE IF NOT EXISTS tcpdump (
 )''')
 
 
-def parse_tcpdump_output(output):
+def parse_tcpdump(output):
     for line in output.splitlines():
+
         fields = re.split('\s+', line)
 
         timestamp = fields[0]
@@ -37,14 +38,10 @@ def parse_tcpdump_output(output):
             (timestamp, source, destination, protocol, type, code, length))
 
 
-with open('/Users/omerfaruk/Documents/GitHub/Odevler/tcpdumpAnalysis/tcpdump.txt', 'r') as f:
-    output = f.read()
+with open('/Users/omerfaruk/Documents/GitHub/Odevler/tcpdumpAnalysis/tcpdump.txt', 'r') as file:
+    output = file.read()
 
-# Parse the tcpdump output and save it to the database
-parse_tcpdump_output(output)
+parse_tcpdump(output)
 
-# Commit the changes to the database
 conn.commit()
-
-# Close the database connection
 conn.close()
